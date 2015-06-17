@@ -22,7 +22,7 @@ resources:
   bugtracker: https://rt.cpan.org/Public/Dist/Display.html?Name=PERLANCAR-AppUtil-PerlStripper
   homepage: https://metacpan.org/release/PERLANCAR-AppUtil-PerlStripper
   repository: git://github.com/perlancar/perl-PERLANCAR-AppUtil-PerlStripper.git
-version: '0.01'
+version: '0.02'
 x_Dist_Zilla:
   perl:
     version: '5.022000'

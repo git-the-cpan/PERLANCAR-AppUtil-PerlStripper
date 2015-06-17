@@ -1,7 +1,7 @@
 package PERLANCAR::AppUtil::PerlStripper;
 
 our $DATE = '2015-06-17'; # DATE
-our $VERSION = '0.01'; # VERSION
+our $VERSION = '0.02'; # VERSION
 
 use 5.010001;
 use strict;
@@ -89,25 +89,24 @@ _
 
     # XXX strip_log_levels
 
-    if ($meta->{args_rels}) {
-        my $ar = $meta->{args_rels};
-        my $prop;
-        if ($ar->{'dep_any&'}) {
-            $prop = $ar->{'dep_any&'};
-        } elsif (ref($ar->{'dep_any'}) eq 'ARRAY' && ($ar->{'dep_any.op'} // '') eq 'and') {
-            $prop = $ar->{'dep_any'};
-        } elsif (!$ar->{'dep_any'}) {
-            $ar->{'dep_any'} = {};
-            $prop = $ar->{'dep_any'};
-        }
-
-        if ($prop) {
-            push @$prop, [stripper_maintain_linum => [qw/stripper/]];
-            push @$prop, [stripper_ws             => [qw/stripper/]];
-            push @$prop, [stripper_log            => [qw/stripper/]];
-            push @$prop, [stripper_pod            => [qw/stripper/]];
-            push @$prop, [stripper_comment        => [qw/stripper/]];
-        }
+    $meta->{args_rels} //= {};
+    my $ar = $meta->{args_rels};
+    my $prop;
+    if ($ar->{'dep_any&'}) {
+        $prop = $ar->{'dep_any&'};
+    } elsif (ref($ar->{'dep_any'}) eq 'ARRAY' && ($ar->{'dep_any.op'} // '') eq 'and') {
+        $prop = $ar->{'dep_any'};
+    } elsif (!$ar->{'dep_any'}) {
+        $ar->{'dep_any'} = [];
+        $ar->{'dep_any.op'} = 'and';
+        $prop = $ar->{'dep_any'};
+    }
+    if ($prop) {
+        push @$prop, [stripper_maintain_linum => [qw/stripper/]];
+        push @$prop, [stripper_ws             => [qw/stripper/]];
+        push @$prop, [stripper_log            => [qw/stripper/]];
+        push @$prop, [stripper_pod            => [qw/stripper/]];
+        push @$prop, [stripper_comment        => [qw/stripper/]];
     }
 
     [200];
@@ -129,7 +128,7 @@ PERLANCAR::AppUtil::PerlStripper - Utilities for PERLANCAR's applications, relat
 
 =head1 VERSION
 
-This document describes version 0.01 of PERLANCAR::AppUtil::PerlStripper (from Perl distribution PERLANCAR-AppUtil-PerlStripper), released on 2015-06-17.
+This document describes version 0.02 of PERLANCAR::AppUtil::PerlStripper (from Perl distribution PERLANCAR-AppUtil-PerlStripper), released on 2015-06-17.
 
 =for Pod::Coverage .+
 
